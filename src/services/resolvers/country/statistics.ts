@@ -1,4 +1,4 @@
-import { CountryStatistic } from "../../../models/countryStat";
+import { CountryStatistic} from "../../../models/countryStat";
 import mongoose from "mongoose";
 
 const validId = (id: string) => {
@@ -45,7 +45,7 @@ export const CountrySTSMSQ = {
                     throw new Error("CountryStat  already exist")
 
                 }
-                const newCountryStat = new CountryStatistic({ ...input });
+                const newCountryStat = CountryStatistic.build({ ...input });
 
                 return await newCountryStat.save();
 
