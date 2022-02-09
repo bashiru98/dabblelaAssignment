@@ -1,7 +1,7 @@
 import { CountryStatistic } from "../../../models/countryStat";
 import mongoose from "mongoose";
 
-const validId = (id:string)  => {
+const validId = (id: string) => {
     return mongoose.Types.ObjectId.isValid(id);
 }
 
@@ -12,8 +12,6 @@ export const CountrySTSMSQ = {
                 if (!validId(id)) return new Error("Invalid id")
                 const countryStat = await CountryStatistic.findById(id).sort({ _id: -1 })
 
-                console.log("log", countryStat)
-
                 if (!countryStat) {
                     return new Error(`CountryStat not found`)
                 }
@@ -21,8 +19,6 @@ export const CountrySTSMSQ = {
                 return countryStat
 
             } catch (error) {
-                console.log(error);
-
                 throw new Error(`Server error`)
             }
         }),
@@ -33,8 +29,6 @@ export const CountrySTSMSQ = {
                 return await CountryStatistic.find({}).sort({ _id: -1 })
 
             } catch (error) {
-
-                console.log(error);
 
                 throw new Error(`Server error`)
             }
@@ -57,8 +51,6 @@ export const CountrySTSMSQ = {
 
             } catch (error) {
 
-                console.log(error);
-
                 throw error;
             }
         },
@@ -67,22 +59,26 @@ export const CountrySTSMSQ = {
 
                 if (!validId(id)) return new Error("Invalid id")
 
-                return await CountryStatistic.findByIdAndUpdate(id, { ...updateFields }, { new: true });
+                const updatedCountryStat = await CountryStatistic.findByIdAndUpdate(id, { ...updateFields }, { new: true });
+
+                if (!updatedCountryStat) return new Error(`error updating countryStat`);
+
+                return updatedCountryStat;
 
             } catch (error) {
-
-                console.log(error);
 
                 throw new Error(`Server error`);
             }
         }),
         deleteCountryStat: (async (_, { id }) => {
             try {
-                return await CountryStatistic.findByIdAndDelete(id);
+                const deletedCountryStat = await CountryStatistic.findByIdAndDelete(id);
+
+                if (!deletedCountryStat) return new Error(`error deleting countryStat`);
+
+                return deletedCountryStat;
 
             } catch (error) {
-
-                console.log(error);
 
                 throw new Error(`Server error`)
             }
