@@ -24,7 +24,7 @@ const start = async () => {
   const server = http.createServer(app);
 
   server.listen(port, () => {
-    console.log(`server runing on port ${port}`)
+    console.log(`server runing on port ${port}!!!`)
   })
 
 };
